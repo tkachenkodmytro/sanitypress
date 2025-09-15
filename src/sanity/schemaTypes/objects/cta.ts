@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { VscInspect } from 'react-icons/vsc'
-import resolveSlug from '@/sanity/lib/resolveSlug'
+import resolveSlug from '../../lib/resolveSlug'
 
 export default defineType({
 	name: 'cta',

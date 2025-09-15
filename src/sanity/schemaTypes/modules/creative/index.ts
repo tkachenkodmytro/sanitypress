@@ -4,7 +4,7 @@ import creativeRichtext from './richtext.creative'
 import creativeCtas from './ctas.creative'
 import { alignItems, textAlign } from 'sanitypress-utils'
 import { getBlockText } from 'sanitypress-utils'
-import { count } from '@/lib/utils'
+import { count } from '../../../../lib/utils'
 import { VscExtensions } from 'react-icons/vsc'
 
 export default defineType({

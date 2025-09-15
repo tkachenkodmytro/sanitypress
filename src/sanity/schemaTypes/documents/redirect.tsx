@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { PiFlowArrow } from 'react-icons/pi'
-import resolveSlug from '@/sanity/lib/resolveSlug'
+import resolveSlug from '../../lib/resolveSlug'
 
 const regex = /^(\/|https?:\/\/)/
 

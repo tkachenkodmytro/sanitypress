@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { BASE_URL } from '@/lib/env'
+import { BASE_URL } from '../../lib/env'
 import { Box, Button, Flex, Popover, Spinner } from '@sanity/ui'
 import { VscEye, VscEyeClosed } from 'react-icons/vsc'
 

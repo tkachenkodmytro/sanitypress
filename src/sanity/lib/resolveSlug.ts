@@ -1,4 +1,4 @@
-import { BLOG_DIR } from '@/lib/env'
+import { BLOG_DIR } from '../../lib/env'
 
 export default function resolveSlug({
 	_type,

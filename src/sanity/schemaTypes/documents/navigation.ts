@@ -1,7 +1,7 @@
 import { defineField, defineType } from 'sanity'
 import { VscMap, VscLayoutMenubar, VscLayoutPanelLeft } from 'react-icons/vsc'
 import { IoShareSocialOutline } from 'react-icons/io5'
-import { count } from '@/lib/utils'
+import { count } from '../../../lib/utils'
 
 export default defineType({
 	name: 'navigation',

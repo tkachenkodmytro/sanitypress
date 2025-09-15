@@ -2,7 +2,7 @@
 
 import { defineLocations, presentationTool } from 'sanity/presentation'
 import { groq } from 'next-sanity'
-import { BLOG_DIR } from '@/lib/env'
+import { BLOG_DIR } from '../lib/env'
 
 export const presentation = presentationTool({
 	name: 'editor',

@@ -8,7 +8,7 @@ import {
 	VscEdit,
 	VscMortarBoard,
 } from 'react-icons/vsc'
-import { BLOG_DIR } from '@/lib/env'
+import { BLOG_DIR } from '../../../lib/env'
 
 export default defineType({
 	name: 'page',

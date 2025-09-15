@@ -2,7 +2,7 @@
 
 import { client } from '@/sanity/lib/client'
 import { token } from '@/sanity/lib/token'
-import { dev } from '@/lib/env'
+import { dev } from '../../lib/env'
 import { draftMode } from 'next/headers'
 import { defineLive, type QueryOptions, type QueryParams } from 'next-sanity'
 
