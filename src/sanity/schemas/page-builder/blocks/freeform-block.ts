@@ -2,8 +2,8 @@ import { Shapes } from "lucide-react";
 import { defineField, defineType } from "sanity";
 import { fieldsets } from "../../misc/fieldsets";
 import { fieldGroups } from "../../misc/field-groups";
-import { SpacingInput, spacingOptions } from "@/sanity/components/spacing-input";
-import { AlignmentInput, alignmentOptions } from "@/sanity/components/alignment-input";
+import { SpacingInput, spacingOptions } from "../../../components/spacing-input";
+import { AlignmentInput, alignmentOptions } from "../../../components/alignment-input";
 
 export default defineType({
   name: 'freeformBlock',

@@ -1,6 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { BetweenHorizonalEnd } from "lucide-react";
-import { SpacingInput, spacingOptions } from "@/sanity/components/spacing-input";
+import { SpacingInput, spacingOptions } from "../../components/spacing-input";
 
 export default defineType({
   name: 'spacerObject',

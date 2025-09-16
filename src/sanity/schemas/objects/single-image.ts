@@ -1,6 +1,6 @@
 import { Image } from "lucide-react";
 import { defineField, defineType } from "sanity";
-import { RatioInput, ratioOptions } from "@/sanity/components/ratio-input";
+import { RatioInput, ratioOptions } from "../../components/ratio-input";
 
 export default defineType({
   name: 'singleImageObject',

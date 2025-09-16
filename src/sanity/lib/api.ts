@@ -2,12 +2,12 @@ export const useCdn = false;
 export const studioUrl = '/studio';
 
 export const dataset = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_DATASET,
+  'production',
   'Missing environment variable: NEXT_PUBLIC_SANITY_DATASET',
 );
 
 export const projectId = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  'ocuan7xe',
   'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID',
 );
 
