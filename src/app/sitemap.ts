@@ -1,47 +1,33 @@
-import { fetchSanityLive } from '@/sanity/lib/fetch'
-import { groq } from 'next-sanity'
-import { DEFAULT_LANG } from '@/lib/i18n'
-import { BLOG_DIR } from '@/lib/env'
-import type { MetadataRoute } from 'next'
+import { MetadataRoute } from "next";
+import { client } from "@/sanity/lib/client";
+import { sitemapQuery } from "@/sanity/lib/queries/misc";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const data = await fetchSanityLive<Record<string, MetadataRoute.Sitemap>>({
-		query: groq`{
-			'pages': *[
-				_type == 'page' &&
-				!(metadata.slug.current in ['404']) &&
-				metadata.noIndex != true
-			]|order(metadata.slug.current){
-				'url': (
-					$baseUrl
-					+ select(defined(language) && language != $defaultLang => language + '/', '')
-					+ select(
-						metadata.slug.current == 'index' => '',
-						metadata.slug.current
-					)
-				),
-				'lastModified': _updatedAt,
-				'priority': select(
-					metadata.slug.current == 'index' => 1,
-					0.5
-				),
-			},
-			'blog': *[_type == 'blog.post' && metadata.noIndex != true]|order(name){
-				'url': (
-					$baseUrl
-					+ select(defined(language) && language != $defaultLang => language + '/', '')
-					+ '${BLOG_DIR}/'
-					+ metadata.slug.current
-				),
-				'lastModified': _updatedAt,
-				'priority': 0.4
-			}
-		}`,
-		params: {
-			baseUrl: process.env.NEXT_PUBLIC_BASE_URL + '/',
-			defaultLang: DEFAULT_LANG,
-		},
-	})
+  try {
+    const paths = await client.fetch(sitemapQuery);
 
-	return Object.values(data).flat()
+    if (!paths) return [];
+
+    const baseUrl = process.env.VERCEL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+
+      return [
+        {
+          url: baseUrl,
+          lastModified: new Date(),
+          changeFrequency: "weekly",
+          priority: 1,
+        },
+        ...paths.map((path) => ({
+          url: new URL(path.href!, baseUrl).toString(),
+          lastModified: new Date(path._updatedAt),
+          changeFrequency: "weekly" as const,
+          priority: 1,
+        })),
+      ];
+  } catch (error) {
+    console.error("Failed to generate sitemap:", error);
+    return [];
+  }
 }

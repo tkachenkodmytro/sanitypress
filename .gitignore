@@ -8,8 +8,6 @@
 
 # testing
 /coverage
-.yalc/
-yalc.lock
 
 # next.js
 /.next/
@@ -36,7 +34,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-public/google*.html
-
-public/admin/static

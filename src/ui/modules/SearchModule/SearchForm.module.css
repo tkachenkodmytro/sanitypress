@@ -1,3 +1,0 @@
-.root:not(:hover):not(:has(:focus, .results:hover)) .results {
-	display: none;
-}

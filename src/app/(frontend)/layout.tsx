@@ -1,39 +1,71 @@
-// import { GoogleTagManager } from '@next/third-parties/google'
-import Root from '@/ui/Root'
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
-import SkipToContent from '@/ui/SkipToContent'
-import Announcement from '@/ui/Announcement'
-import Header from '@/ui/header'
-import Footer from '@/ui/footer'
-import VisualEditingControls from '@/ui/VisualEditingControls'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import '@/styles/app.css'
+import "./globals.css";
+import type { Metadata } from "next";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity";
+import Container from "@/components/global/container";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import ClientLayout from "@/components/global/client-layout";
+import InstallDemoButton from "@/components/shared/install-demo-button";
+import { DisableDraftMode } from "@/components/shared/disable-draft-mode";
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+import { navigationSettingsQuery } from "@/sanity/lib/queries/singletons/navigation";
+import { generalSettingsQuery, marketingSettingsQuery } from "@/sanity/lib/queries/singletons/settings";
+
+export const metadata: Metadata = {
+  title: {
+    template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME}`,
+    default: `${process.env.NEXT_PUBLIC_SITE_NAME}`,
+  },
+  description: "Open-Source Next.js & Sanity Marketing Website Template.",
+};
 
 export default async function RootLayout({
-	children,
-}: {
-	children: React.ReactNode
-}) {
-	return (
-		<Root>
-			{/* <GoogleTagManager gtmId="" /> */}
-			<body className="bg-canvas text-ink antialiased">
-				<NuqsAdapter>
-					<SkipToContent />
-					<Announcement />
-					<Header />
-					<main id="main-content" role="main" tabIndex={-1}>
-						{children}
-					</main>
-					<Footer />
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
 
-					<VisualEditingControls />
-				</NuqsAdapter>
+  const { isEnabled: isDraftMode } = await draftMode();
 
-				<Analytics />
-				<SpeedInsights />
-			</body>
-		</Root>
-	)
+  const [{ data: settings }, { data: marketingSettings }, { data: navigationSettings }] = await Promise.all([
+    sanityFetch({ query: generalSettingsQuery }),
+    sanityFetch({ query: marketingSettingsQuery }),
+    sanityFetch({ query: navigationSettingsQuery })
+  ]);
+
+  if (!settings) return (
+    <Container className="py-16 flex items-center justify-center gap-2.5 h-screen pattern-bg--2">
+      <InstallDemoButton />
+    </Container>
+  )
+  
+  return (
+    <html lang="en">
+      <body>
+        <ClientLayout 
+          settings={settings}
+          navigationSettings={navigationSettings}
+        >
+          {children}
+        </ClientLayout>
+        <SanityLive />
+        {isDraftMode && (
+          <>
+            <DisableDraftMode />
+            <VisualEditing />
+          </>
+        )}
+        {marketingSettings?.googleAnalyticsId && (
+          <GoogleAnalytics 
+            gaId={marketingSettings.googleAnalyticsId} 
+          />
+        )}
+        {marketingSettings?.googleTagManagerId && (
+          <GoogleTagManager 
+            gtmId={marketingSettings?.googleTagManagerId} 
+          />
+        )}
+      </body>
+    </html>
+  );
 }
